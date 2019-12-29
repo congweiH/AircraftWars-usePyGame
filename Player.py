@@ -18,15 +18,12 @@ class Player(pygame.sprite.Sprite):
         self.bullets = pygame.sprite.Group()
         self.img_index = 0
         self.is_hit = False
+        self.mask = pygame.mask.from_surface(self.image[0])
 
     def loadImage(self):
-        image = []
-        image.append(pygame.image.load('img/me1.png'))
-        image.append(pygame.image.load('img/me2.png'))
-        image.append(pygame.image.load('img/me_destroy_1.png'))
-        image.append(pygame.image.load('img/me_destroy_2.png'))
-        image.append(pygame.image.load('img/me_destroy_3.png'))
-        image.append(pygame.image.load('img/me_destroy_4.png'))
+        image = [pygame.image.load('img/me1.png'), pygame.image.load('img/me2.png'),
+                 pygame.image.load('img/me_destroy_1.png'), pygame.image.load('img/me_destroy_2.png'),
+                 pygame.image.load('img/me_destroy_3.png'), pygame.image.load('img/me_destroy_4.png')]
         return image
 
     def fire(self, bullet_img):

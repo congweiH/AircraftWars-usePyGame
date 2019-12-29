@@ -11,7 +11,7 @@ class Enemy(pygame.sprite.Sprite):
         self.down_imgs = enemy_down_imgs
         self.speed = 2
         self.down_index = 0
+        self.mask = pygame.mask.from_surface(self.image)
 
     def move(self):
         self.rect.top += self.speed
-    

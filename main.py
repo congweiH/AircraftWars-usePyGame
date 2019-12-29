@@ -19,7 +19,7 @@ background_img = pygame.image.load('img/background.png')
 
 # 玩家飞机
 player = Player()
-player_down_index = 16
+player_down_index = 0
 
 # 子弹
 fire_fre = 0    # 发射的频率
@@ -45,25 +45,23 @@ while True:
     # 绘制玩家飞机
     if not player.is_hit:
         screen.blit(player.image[player.img_index], player.rect)
-        # player.img_index = fire_fre
     else:
         player.img_index=player_down_index
+        if player_down_index > 5:
+            break
         screen.blit(player.image[player.img_index], player.rect)
         player_down_index += 1
-        if player_down_index>47:
-            break
-
     # 控制发射子弹和频率并发射子弹
     if not player.is_hit:
         if fire_fre % 15 == 0:
             player.fire(bullet_img)
         fire_fre += 1
-        if fire_fre>=15:
+        if fire_fre >= 15:
             fire_fre = 0
     # 移动子弹，若超出窗口范围则删除
     for bullet in player.bullets:
         bullet.move()
-        if bullet.rect.bottom<0:
+        if bullet.rect.bottom < 0:
             player.bullets.remove(bullet)
     # 绘制子弹
     player.bullets.draw(screen)
@@ -73,19 +71,20 @@ while True:
         enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos)
         enemies1.add(enemy1)
     enemy_fre += 1
-    if enemy_fre>=100:
+    if enemy_fre >= 100:
         enemy_fre = 0
     # 移动敌机
     for enemy in enemies1:
         enemy.move()
-        # 判断玩家是否被击中
-        if pygame.sprite.collide_circle(enemy, player):
-            enemies_down.add(enemy)
-            enemies1.remove(enemy)
-            player.is_hit = True
-            break
         if enemy.rect.top > SCREEN_HEIGHT:
             enemies1.remove(enemy)
+    # 判断玩家是否被击中
+    list = pygame.sprite.spritecollide(player, enemies1, False, pygame.sprite.collide_mask)
+    if len(list)>0:
+        for i in list:
+            enemies_down.add(i)
+            enemies1.remove(i)
+        player.is_hit = True
     # 敌机被击中
     enemies1_down = pygame.sprite.groupcollide(enemies1,player.bullets,1,1)
     for enemy_down in enemies1_down:
