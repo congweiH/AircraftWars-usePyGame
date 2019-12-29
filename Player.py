@@ -17,7 +17,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = init_pos
         self.bullets = pygame.sprite.Group()
         self.img_index = 0
+        self.down_index = 0
         self.is_hit = False
+        self.fire_fre = 0
         self.mask = pygame.mask.from_surface(self.image[0])
 
     def loadImage(self):
@@ -26,9 +28,27 @@ class Player(pygame.sprite.Sprite):
                  pygame.image.load('img/me_destroy_3.png'), pygame.image.load('img/me_destroy_4.png')]
         return image
 
+    def draw(self,screen):
+        screen.blit(self.image[self.img_index], self.rect)
+
+    def destory(self, screen):
+        self.img_index=self.down_index
+        if self.down_index>5:
+            return True
+        self.draw(screen)
+        self.down_index += 1
+
     def fire(self, bullet_img):
-        bullet = Bullet(bullet_img, self.rect.midtop)
-        self.bullets.add(bullet)
+        if self.fire_fre % 15 == 0:
+            self.bullets.add(Bullet(bullet_img,self.rect.midtop,1))
+        self.fire_fre += 1
+        if self.fire_fre >= 15:
+            self.fire_fre = 0
+        # 清除子弹
+        for bullet in self.bullets:
+            bullet.move()
+            if bullet.rect.bottom < 0:
+                self.bullets.remove(bullet)
 
     def moveUp(self):
         if self.rect.top <= 0:
