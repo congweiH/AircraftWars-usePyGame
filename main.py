@@ -54,6 +54,9 @@ while True:
         enemy.move()
         enemy.fire(bullet_img)
         enemy.bullets.draw(screen)
+        if len(pygame.sprite.spritecollide(player,enemy.bullets, False,pygame.sprite.collide_mask))>0:
+            player.is_hit = True
+            break
     # 判断玩家是否被击中
     list = pygame.sprite.spritecollide(player, enemies1, False, pygame.sprite.collide_mask)
     if len(list)>0:
