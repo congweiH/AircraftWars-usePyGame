@@ -15,4 +15,4 @@ class Bullet(pygame.sprite.Sprite):
         if self.flag == 1:  # 我方飞机
             self.rect.top -= self.speed
         else:   # 敌机
-            self.rect.top += self.speed
+            self.rect.top += self.speed - 5

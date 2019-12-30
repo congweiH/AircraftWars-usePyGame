@@ -20,6 +20,8 @@ class Player(pygame.sprite.Sprite):
         self.down_index = 0
         self.is_hit = False
         self.fire_fre = 0
+        self.life = 3
+        self.life_img = pygame.image.load('img/life.png')
         self.mask = pygame.mask.from_surface(self.image[0])
 
     def loadImage(self):
@@ -30,6 +32,9 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self,screen):
         screen.blit(self.image[self.img_index], self.rect)
+        delta = self.life_img.get_rect().width
+        for i in range(self.life):
+            screen.blit(self.life_img,(i*delta,0))
 
     def destory(self, screen):
         self.img_index=self.down_index
