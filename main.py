@@ -62,10 +62,12 @@ def restart():
             exit()
         if event.type == MOUSEBUTTONDOWN:
             M_X, M_Y = event.pos
-            if GAMEOVER_X < M_X and M_X < GAMEOVER_X + gameover_img.get_rect().width and GAMEOVER_Y < M_Y and M_Y < GAMEOVER_Y + gameover_img.get_rect().height:
+            if GAMEOVER_X < M_X and M_X < GAMEOVER_X + gameover_img.get_rect().width and \
+                    GAMEOVER_Y < M_Y and M_Y < GAMEOVER_Y + gameover_img.get_rect().height:
                 pygame.quit()
                 exit()
-            if AGAIN_X < M_X and M_X < AGAIN_X + again_img.get_rect().width and AGAIN_Y < M_Y and M_Y < AGAIN_Y + again_img.get_rect().height:
+            if AGAIN_X < M_X and M_X < AGAIN_X + again_img.get_rect().width and AGAIN_Y < M_Y and \
+                    M_Y < AGAIN_Y + again_img.get_rect().height:
                 start = True
                 player = Player()
                 enemies1 = pygame.sprite.Group()
@@ -75,6 +77,44 @@ def restart():
                 break
 
     pygame.display.update()
+
+def pause_resume():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN and event.key == K_SPACE:
+            # 当时状态是播放，需要改成暂停
+            while True:
+                screen.blit(pause_pressed, (SCREEN_WIDTH - pause_pressed.get_rect().width, 0))
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        exit()
+                    if event.type == KEYUP and event.key == K_SPACE:
+                        while True:
+                            screen.fill(0)
+                            screen.blit(background_img, (0, 0))
+                            screen.blit(resume_nor, (SCREEN_WIDTH - resume_nor.get_rect().width, 0))
+                            player.draw(screen)
+                            player.bullets.draw(screen)
+                            enemies1.draw(screen)
+                            for enemy in enemies1:
+                                enemy.bullets.draw(screen)
+
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    pygame.quit()
+                                    exit()
+                                if event.type == KEYDOWN and event.key == K_SPACE:
+                                    while True:
+                                        screen.blit(resume_pressed, (SCREEN_WIDTH - resume_pressed.get_rect().width, 0))
+                                        for event in pygame.event.get():
+                                            if event.type == KEYUP and event.key == K_SPACE:
+                                                return True
+                                        pygame.display.update()
+                            pygame.display.update()
+                pygame.display.update()
 
 while True:
     if start == False:
@@ -88,8 +128,8 @@ while True:
             # 绘制背景
             screen.fill(0)
             screen.blit(background_img, (0,0))
-            screen.blit(pause_pressed, (SCREEN_WIDTH - pause_pressed.get_rect().width,0))
-            screen.blit(resume_nor, (SCREEN_WIDTH - resume_nor.get_rect().width, pause_pressed.get_rect().height))
+            screen.blit(pause_nor, (SCREEN_WIDTH - pause_nor.get_rect().width,0))
+            # screen.blit(resume_nor, (SCREEN_WIDTH - resume_nor.get_rect().width, pause_pressed.get_rect().height))
             # 绘制玩家飞机
             if not player.is_hit:
                 player.draw(screen)
@@ -137,7 +177,7 @@ while True:
                 enemies_down.add(enemy_down)
             # 绘制敌机
             enemies1.draw(screen)
-            bullets.draw(screen)
+            # bullets.draw(screen)
             # 绘制击毁动画
             for enemy_down in enemies_down:
                 if enemy_down.down_index > 7:
@@ -157,27 +197,6 @@ while True:
                 if key_pressed[K_RIGHT]:
                     player.moveRight()
 
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                if event.type == MOUSEBUTTONDOWN:
-                    M_X, M_Y = event.pos
-                    if (SCREEN_WIDTH-pause_pressed.get_rect().width < M_X and M_X < SCREEN_WIDTH and 0 < M_Y and M_Y < pause_pressed.get_rect().height*2):
-                        flag = 0
-                        while True:
-                            if flag:
-                                break
-                            screen.blit(pause_nor, (SCREEN_WIDTH - pause_nor.get_rect().width, 0))
-                            screen.blit(resume_pressed,(SCREEN_WIDTH - resume_pressed.get_rect().width, pause_pressed.get_rect().height))
-                            for event in pygame.event.get():
-                                if event.type == pygame.QUIT:
-                                    pygame.quit()
-                                    exit()
-                                if event.type == MOUSEBUTTONDOWN:
-                                    M_X, M_Y = event.pos
-                                    if(SCREEN_WIDTH-pause_pressed.get_rect().width < M_X and M_X < SCREEN_WIDTH and 0 < M_Y and M_Y < pause_pressed.get_rect().height*2):
-                                        flag = 1
-                                        break
-                            pygame.display.update()
+            pause_resume()      # 暂停功能
+
             pygame.display.update()
