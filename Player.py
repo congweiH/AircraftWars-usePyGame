@@ -15,7 +15,6 @@ class Player(pygame.sprite.Sprite):
         self.speed = 8
         self.rect = self.image[0].get_rect()
         self.rect.topleft = init_pos
-        self.bullets = pygame.sprite.Group()
         self.img_index = 0
         self.down_index = 0
         self.is_hit = False
@@ -43,17 +42,12 @@ class Player(pygame.sprite.Sprite):
         self.draw(screen)
         self.down_index += 1
 
-    def fire(self, bullet_img):
+    def fire(self, bullet_img, bullets):
         if self.fire_fre % 15 == 0:
-            self.bullets.add(Bullet(bullet_img,self.rect.midtop,1))
+            bullets.add(Bullet(bullet_img, self.rect.midtop, 1))
         self.fire_fre += 1
         if self.fire_fre >= 15:
             self.fire_fre = 0
-        # 清除子弹
-        for bullet in self.bullets:
-            bullet.move()
-            if bullet.rect.bottom < 0:
-                self.bullets.remove(bullet)
 
     def moveUp(self):
         if self.rect.top <= 0:

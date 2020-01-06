@@ -13,7 +13,7 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_img = []
         self.enemy_down_imgs = []
         self.loadImg()
-        r = random.randint(0,1)
+        r = random.randint(0, 1)
         self.image = self.enemy_img[r]
         self.rect = self.image.get_rect()
         self.rect.topleft = [random.randint(0, SCREEN_WIDTH - self.image.get_rect().width), 0]
@@ -21,7 +21,6 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 2
         self.down_index = 0
         self.mask = pygame.mask.from_surface(self.image)
-        self.bullets = pygame.sprite.Group()
         self.fire_fre = 0
 
     def loadImg(self):
@@ -38,17 +37,12 @@ class Enemy(pygame.sprite.Sprite):
     def move(self):
         self.rect.top += self.speed
 
-    def fire(self, bullet_img):
+    def fire(self, bullet_img, bullets):
         if self.fire_fre % 60 == 0:
-            self.bullets.add(Bullet(bullet_img, self.rect.midbottom, 0))
+            bullets.add(Bullet(bullet_img, self.rect.midbottom, 0))
         self.fire_fre += 1
         if self.fire_fre >= 60:
             self.fire_fre = 0
-        # 清除子弹
-        for bullet in self.bullets:
-            bullet.move()
-            if bullet.rect.top > SCREEN_HEIGHT:
-                self.bullets.remove(bullet)
 
     def draw(self,screen):
         screen.blit(self.down_imgs[self.down_index // 2], self.rect)
