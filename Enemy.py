@@ -13,15 +13,28 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_img = []
         self.enemy_down_imgs = []
         self.loadImg()
-        r = random.randint(0, 1)
-        self.image = self.enemy_img[r]
+
+        self.type = random.randint(0, 2)
+
+        if self.type == 0:
+            self.blood = 1
+        elif self.type == 1:
+            self.blood = 4
+        else:
+            self.blood = 8
+
+        self.image = self.enemy_img[self.type]
         self.rect = self.image.get_rect()
-        self.rect.topleft = [random.randint(0, SCREEN_WIDTH - self.image.get_rect().width), 0]
-        self.down_imgs = self.enemy_down_imgs[r]
+
+        self.down_imgs = self.enemy_down_imgs[self.type]
         self.speed = 2
         self.down_index = 0
         self.mask = pygame.mask.from_surface(self.image)
         self.fire_fre = 0
+
+        self.speedx = 2
+
+        self.rect.topleft = [random.randint(0, SCREEN_WIDTH - self.image.get_rect().width), 0]
 
     def loadImg(self):
         self.enemy_img = [pygame.image.load('img/enemy1.png'), pygame.image.load('img/enemy2.png'),
@@ -35,7 +48,16 @@ class Enemy(pygame.sprite.Sprite):
                             pygame.image.load('img/enemy3_down5.png'), pygame.image.load('img/enemy3_down6.png')]]
 
     def move(self):
-        self.rect.top += self.speed
+        if self.type == 0 or self.type == 1:
+            self.rect.top += self.speed
+        elif self.type == 2:    # boss
+            if self.rect.topleft == 0:
+                self.rect.topleft = 0
+            self.rect.x -= self.speedx
+            if self.rect.x <=10:
+                self.speedx = -self.speedx
+            if self.rect.x >= 300:
+                self.speedx = -self.speedx
 
     def fire(self, bullet_img, bullets):
         if self.fire_fre % 60 == 0:

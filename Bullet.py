@@ -11,8 +11,10 @@ class Bullet(pygame.sprite.Sprite):
         self.speed = 10
         self.flag = flag
 
-    def move(self):
+    def update(self):
         if self.flag == 1:  # 我方飞机
             self.rect.top -= self.speed
+        elif self.flag == -1:   # bomb
+            self.rect.top += self.speed - 6
         else:   # 敌机
             self.rect.top += self.speed - 7

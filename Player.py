@@ -20,7 +20,10 @@ class Player(pygame.sprite.Sprite):
         self.is_hit = False
         self.fire_fre = 0
         self.life = 3
+        self.bomb = 0
+        self.base = 15
         self.life_img = pygame.image.load('img/life.png')
+        self.bomb_img = pygame.image.load('img/bomb.png')
         self.mask = pygame.mask.from_surface(self.image[0])
 
     def loadImage(self):
@@ -31,9 +34,14 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self,screen):
         screen.blit(self.image[self.img_index], self.rect)
+
+    def draw_life_bomb(self,screen):
         delta = self.life_img.get_rect().width
         for i in range(self.life):
-            screen.blit(self.life_img,(i*delta,0))
+            screen.blit(self.life_img, (i * delta, 0))
+        delta = self.bomb_img.get_rect().height
+        for i in range(self.bomb):
+            screen.blit(self.bomb_img, (0, SCREEN_HEIGHT - delta - i * delta))
 
     def destory(self, screen):
         self.img_index=self.down_index
@@ -43,10 +51,10 @@ class Player(pygame.sprite.Sprite):
         self.down_index += 1
 
     def fire(self, bullet_img, bullets):
-        if self.fire_fre % 15 == 0:
+        if self.fire_fre % self.base == 0:
             bullets.add(Bullet(bullet_img, self.rect.midtop, 1))
         self.fire_fre += 1
-        if self.fire_fre >= 15:
+        if self.fire_fre >= self.base:
             self.fire_fre = 0
 
     def moveUp(self):
