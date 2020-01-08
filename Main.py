@@ -58,7 +58,7 @@ class Main:
     def run(self):
         """实现主要逻辑"""
         while True:
-
+            # 显示封面
             Cover().run()
 
             while self.starting:
@@ -298,7 +298,7 @@ class Main:
                                             pygame.display.update()
                                 pygame.display.update()
                     pygame.display.update()
-            if event.type == KEYDOWN and event.key == K_x:
+            if event.type == KEYDOWN and event.key == K_x and self.player.bomb>0:
                 self.make_bomb()
 
     def restart(self):
