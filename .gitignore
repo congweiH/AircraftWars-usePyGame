@@ -1,5 +1,3 @@
-__pycache__/Background.cpython-39.pyc
-__pycache__/Player.cpython-39.pyc
-__pycache__/Enemy.cpython-39.pyc
-__pycache__/Cover.cpython-39.pyc
-__pycache__/Bullet.cpython-39.pyc
+frame/__pycache__/Game.cpython-39.pyc
+frame/__pycache__/Player.cpython-39.pyc
+frame/__pycache__/Window.cpython-39.pyc
