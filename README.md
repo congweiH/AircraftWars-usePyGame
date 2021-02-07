@@ -2,4 +2,8 @@
 python课设飞机大战   
 基于pygame的实现
 
-![飞机大战](F:\workspace\AircraftWars-usePyGame\飞机大战.png)
+
+
+simple 文件夹里面是之前写好的，比较杂乱无章
+
+frame 文件夹是打算重新用游戏框架重新写一个
