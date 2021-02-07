@@ -1,5 +1,6 @@
 from Player import *
 from Window import *
+import pygame
 
 class Game:
     def __init__(self):
@@ -9,9 +10,16 @@ class Game:
         # 创建玩家飞机
         self.player = Player()
 
-        
     def HandleInput(self):
-        pass
+        key_pressed = pygame.key.get_pressed()
+        if key_pressed[pygame.K_UP]:
+            self.player.moveUp()
+        if key_pressed[pygame.K_DOWN]:
+            self.player.moveDown()
+        if key_pressed[pygame.K_LEFT]:
+            self.player.moveLeft()
+        if key_pressed[pygame.K_RIGHT]:
+            self.player.moveRight()
 
 
     def Update(self):
