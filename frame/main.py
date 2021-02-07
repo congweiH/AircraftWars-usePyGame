@@ -8,8 +8,6 @@ class main:
         game = Game()
 
         while not game.GetWindow().IsDone():
-            # 设置游戏最大帧率为60
-            pygame.time.Clock().tick(60)
             game.HandleInput()
             game.Update()
             game.Render()

@@ -5,9 +5,9 @@ class Window:
 
         self.SetUp(windowTitle, windowSize)
 
-    # 初始化窗口
+    
     def SetUp(self, windowTitle, windowSize):
-        
+        """初始化窗口"""
         self.windowTitle = windowTitle
         self.windowSize = windowSize
 
@@ -22,16 +22,18 @@ class Window:
             if event.type == pygame.QUIT:
                 self.done = True
 
-    # 用黑色填充清屏
+    
     def BeginDraw(self):
+        """用黑色填充清屏"""
         self.window.fill((0,0,0))
 
     # 在窗口中画别的东西
     def Draw(self, drawable, topleft):
         self.window.blit(drawable, topleft)
 
-    # 将画的东西展示出来
+
     def EndDraw(self):
+        """将画的东西展示出来"""
         pygame.display.update()
 
     # get set method

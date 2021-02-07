@@ -10,7 +10,9 @@ class Game:
         # 创建玩家飞机
         self.player = Player()
 
+
     def HandleInput(self):
+        """处理用户输入"""
         key_pressed = pygame.key.get_pressed()
         if key_pressed[pygame.K_UP]:
             self.player.moveUp()
@@ -23,6 +25,9 @@ class Game:
 
 
     def Update(self):
+        """每帧执行一次"""
+        # 设置游戏最大帧率为60
+        pygame.time.Clock().tick(60)
         self.window.Update()
         ############## update here #################
 
@@ -31,6 +36,7 @@ class Game:
 
 
     def Render(self):
+        """渲染"""
         self.window.BeginDraw()
         ################ draw here ##################
         # 渲染玩家飞机
@@ -41,6 +47,3 @@ class Game:
     # get set methods
     def GetWindow(self):
         return self.window
-
-
-    
